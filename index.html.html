@@ -4,229 +4,226 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>琉球の風 ～沖縄祭り in 高崎～ PRE-EVENT</title>
-  <meta name="description" content="琉球の風 ～沖縄祭り in 高崎～ PRE-EVENT の公式ページ。日時・会場・出演・チケット・協賛・フォトギャラリーなど。">
-
+  <meta name="description" content="琉球の風 ～沖縄祭り in 高崎～ PRE-EVENT の公式ページ。日時・会場・最新情報・特別ゲスト・出演・チケット・協賛・フォトギャラリー。">
   <style>
-    :root{
-      /* 画像は img/ フォルダに置く想定です。拡張子は実ファイルに合わせて変更してください。 */
-      --hero:url('img/hero.jpg');              /* 1枚目（ヒーロー） */
-      --bg-fixed:url('img/background2.jpg');   /* 2枚目（スクロール背景） */
-      --sponsor-bg:#fff;
-      --accent:#ff6b35;
-      --gold:#ffd700;
-      --ink:#111;
-      --glass:rgba(0,0,0,.55);
-      --line:rgba(255,255,255,.25);
-      --text:#fff;
+     :root{
+      --hero-pc:url('img/hero.jpg');           /* PC用（横長） */
+      --hero-sp:url('img/hero-sp.jpg');        /* スマホ用（縦長） */
+      --accent:#ff6b35; --gold:#ffd700; --ink:#111; --line:rgba(255,255,255,.25); --text:#fff;
     }
-
     *{box-sizing:border-box}
     html,body{margin:0}
     body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;color:var(--text);background:#000;overflow-x:hidden}
 
-    /* チケット固定バナー */
-    .ticket-bar{
-      position:fixed;inset:0 auto auto 0;height:48px;background:linear-gradient(90deg,#FF6B35,#F7931E,#FFD700);
-      display:flex;align-items:center;justify-content:center;font-weight:700;z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.35);cursor:pointer
-    }
-    .ticket-bar:hover{filter:brightness(1.05)}
+    /* 右上固定ボタン */
+    .cta-fixed{position:fixed;top:12px;right:12px;z-index:100}
+    .cta-fixed a{display:inline-block;background:linear-gradient(90deg,#FF6B35,#F7931E,#FFD700);color:#fff;font-weight:800;padding:10px 14px;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.35);text-decoration:none}
+    .cta-fixed a:hover{filter:brightness(1.05)}
 
-    /* ヒーロー */
-    .hero{
-      min-height:100dvh;display:grid;place-items:center;text-align:center;position:relative;padding-top:48px
-    }
-    .hero::before{
-      content:"";position:absolute;inset:0;background:var(--hero) center/cover no-repeat;z-index:-2
-    }
-    .hero::after{
-      content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.55),rgba(0,0,0,.35));z-index:-1
-    }
-    .logo{font-weight:900;font-size:clamp(28px,6vw,56px);letter-spacing:.05em;text-shadow:0 6px 24px rgba(0,0,0,.6)}
-    .sub{font-size:clamp(16px,3vw,24px);opacity:.95;margin:.25rem 0 1rem}
-    .pill{display:inline-block;padding:.6rem 1rem;border-radius:999px;background:rgba(0,0,0,.5);border:1px solid var(--line);backdrop-filter:blur(6px);font-weight:700}
+    /* ヒーロー（画像は必ず全体表示） */
+    .hero{min-height:100dvh;position:relative;display:grid;place-items:center;background:#0000}
+    .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0000}
+    .hero .wrap{position:relative;z-index:1;text-align:center}
+    .logo{font-weight:900;font-size:clamp(28px,6vw,56px);letter-spacing:.05em;text-shadow:0 6px 24px rgba(0,0,0,.35);color:#fff}
+    .sub{font-size:clamp(16px,3vw,24px);opacity:.95;margin:.25rem 0 1rem;color:#fff}
+    .pill{display:inline-block;padding:.6rem 1rem;border-radius:999px;background:rgba(0,0,0,.5);border:1px solid var(--line);backdrop-filter:blur(6px);font-weight:700;color:#fff}
+
+    /* 黒帯（ヒーロー直下） */
+    .blackbar{height:32px;background:#000}
+
+    /* 固定イメージ帯（Parallax 風）*/
+    .fixed-visual{height:45vh;display:block;background:var(--fixed) center no-repeat fixed;background-size:contain;background-color:#000}
+    @media (max-width: 768px){.fixed-visual{height:36vh}}
 
     /* セクション共通 */
+    section{padding:56px 0;position:relative}
     .wrap{max-width:1100px;margin:auto;padding:0 16px}
-    section{padding:64px 0;position:relative}
-    .glass{background:var(--glass);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.35)}
-    h2{font-size:clamp(22px,4.2vw,34px);text-align:center;margin:0 0 18px;position:relative;color:#ffe08a}
-    h2::before{content:"";width:28px;height:28px;background:url('img/sicon.png') center/contain no-repeat; /* 任意：シーサー等 */
-      position:relative;display:inline-block;vertical-align:middle;margin-right:8px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+    h2{font-size:clamp(22px,4.2vw,34px);text-align:center;margin:0 0 18px;color:#ffe08a}
     p.lead{text-align:center;margin:0 auto 22px;max-width:760px;opacity:.9}
 
-    /* 固定背景の帯（情報だけスクロール） */
-    .fixed-bg{background:var(--bg-fixed) center/cover fixed}
-    .overlay{background:rgba(0,0,0,.55)}
-
-    /* カードやグリッド */
+    /* カードとグリッド */
     .grid{display:grid;gap:16px}
-    .grid-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
     .grid-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
     .card{padding:16px;border-radius:14px;background:rgba(0,0,0,.65);border:1px solid var(--line)}
     .band{height:6px;border-radius:6px;background:linear-gradient(90deg,#ff8a00,#ff4d6d,#7ae1ff,#ffd200);margin-top:6px}
 
-    /* 画像 */
-    .cover{width:100%;height:220px;border-radius:12px;border:1px solid var(--line);object-fit:cover}
+    /* 画像は切らない（枠の中に全体表示） */
+    .thumb{width:100%;aspect-ratio:3/2;height:auto;border-radius:12px;border:1px solid var(--line);object-fit:contain;background:#000}
 
-    /* ギャラリー（スクロールスナップ） */
-    .snap{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,32%);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
-    .snap > img{height:180px;object-fit:cover;border-radius:12px;border:1px solid var(--line);scroll-snap-align:center}
+    /* 情報帯（背景写真の上にガラス） */
+    .fixed-bg{background:var(--fixed) center/cover fixed}
+    .overlay{background:rgba(0,0,0,.62)}
+    .glass{background:rgba(0,0,0,.52);border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.35);padding:24px}
 
-    /* 協賛ロゴ */
-    .sponsors{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
-    .sponsors img{height:64px;background:var(--sponsor-bg);border-radius:12px;padding:6px;border:1px solid #eee;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+     @media(max-width:600px){
+      .hero{min-height:100svh}
+      .hero img{content:url('img/hero-sp.jpg');object-fit:contain;object-position:center center;background:#000}
+      .blackbar{height:0px} /* ← 黒余白をさらに狭く */
+      section{padding:36px 0} /* セクション上下の余白も縮小 */
+      .hero .wrap{padding:0 .5rem}
+    }
 
-    footer{padding:32px 0;text-align:center;color:#ddd}
-    a.btn{display:inline-block;padding:12px 18px;border-radius:999px;background:var(--accent);color:#fff;font-weight:800;text-decoration:none}
+
+
+    
+    footer{padding:40px 0;text-align:center;color:#ddd}
   </style>
 </head>
 <body>
+  <div class="cta-fixed"><a href="#tickets">🎫 チケット購入はこちら</a></div>
 
-  <!-- 固定チケットバナー（クリックでチケットへ） -->
-  <div class="ticket-bar" onclick="document.getElementById('tickets').scrollIntoView({behavior:'smooth'})">
-    🎫 チケット購入はこちら
-  </div>
-
-  <!-- ヒーロー -->
+  <!-- Hero -->
   <header class="hero">
-    <div class="wrap">
-      <div class="logo">琉球の風 🌺</div>
-      <div class="sub">沖縄祭り in 高崎 PRE-EVENT</div>
-      <div class="pill">2025年10月18日（土）12:00 START @ もてなし広場</div>
-      <p style="margin-top:18px">
-        <a class="btn" href="#tickets">今すぐチケットをチェック</a>
-      </p>
-    </div>
-  </header>
+    <img src="img/hero.jpg" alt="琉球の風 PRE-EVENT">
+      </header>
 
-  <!-- 前回の様子 / 概要（固定背景帯） -->
-  <section class="fixed-bg">
+  <!-- 黒帯 + 固定イメージ帯（写真は切らずに表示） -->
+  <div class="blackbar" aria-hidden="true"></div>
+
+  <!-- 最新情報（この位置からすぐ情報が見える） -->
+  <section id="news">
     <div class="overlay">
       <div class="wrap">
-        <div class="glass" style="padding:24px">
-          <h2>イベント概要</h2>
-          <p class="lead">音楽・踊り・沖縄グルメで一日中楽しめる屋外フェス。家族連れ大歓迎！</p>
+        <div class="glass">
+          <h2>最新情報</h2>
           <div class="grid grid-3">
-            <div class="card">
-              <img class="cover" src="img/guest1.jpg" alt="ゲスト1">
-              <div style="font-weight:900;margin-top:10px;color:#fff">Special Guest</div>
-              <div class="band"></div>
-            </div>
-            <div class="card">
-              <img class="cover" src="img/guest2.jpg" alt="ゲスト2">
-              <div style="font-weight:900;margin-top:10px;color:#fff">琉球芸能 × バンド</div>
-              <div class="band"></div>
-            </div>
-            <div class="card">
-              <img class="cover" src="img/background2.jpg" alt="前回の雰囲気">
-              <div style="font-weight:900;margin-top:10px;color:#fff">前回の様子</div>
-              <div class="band"></div>
-            </div>
+            <div class="card"><h3 style="margin:0 0 8px">📣 お知らせ</h3><div class="band"></div><p style="margin:12px 0 0">続報はSNS/本サイトで発表します。</p></div>
+            <div class="card"><h3 style="margin:0 0 8px">🎤 ラインナップ</h3><div class="band"></div><p style="margin:12px 0 0">特別ゲスト・出演者を順次公開。</p></div>
+            <div class="card"><h3 style="margin:0 0 8px">🍽 フード</h3><div class="band"></div><p style="margin:12px 0 0">沖縄グルメの出店情報を準備中。</p></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 出演者 -->
-  <section>
+  <!-- 特別ゲスト（写真は全体表示） -->
+  <section id="special-guests">
+    <div class="wrap">
+      <h2>特別ゲスト</h2>
+      <p class="lead">スペシャルな2組が会場を盛り上げます！</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <a href="https://example.com/guest1" target="_blank" rel="noopener">
+            <img class="thumb" src="img/guest1.jpg" alt="特別ゲスト1">
+          </a>
+          <div class="band"></div>
+        </div>
+        <div class="card">
+          <a href="https://example.com/guest2" target="_blank" rel="noopener">
+            <img class="thumb" src="img/guest2.jpg" alt="特別ゲスト2">
+          </a>
+          <div class="band"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 出演者（写真は切らない） -->
+  <section id="lineup">
     <div class="wrap">
       <h2>出演者</h2>
       <p class="lead">ラインナップは順次追加予定！</p>
       <div class="grid grid-3">
-        <div class="card">
-          <img class="cover" src="img/performer1.jpg" alt="出演者1"><div class="band"></div>
-        </div>
-        <div class="card">
-          <img class="cover" src="img/performer2.jpg" alt="出演者2"><div class="band"></div>
-        </div>
-        <div class="card">
-          <img class="cover" src="img/performer3.jpg" alt="出演者3"><div class="band"></div>
-        </div>
-        <div class="card">
-          <img class="cover" src="img/performer4.jpg" alt="出演者4"><div class="band"></div>
-        </div>
-        <div class="card">
-          <img class="cover" src="img/performer5.jpg" alt="出演者5"><div class="band"></div>
-        </div>
+        <div class="card"><a href="https://example.com/performer1" target="_blank" rel="noopener"><img class="thumb" src="img/performer1.jpg" alt="出演者1"></a><div class="band"></div></div>
+        <div class="card"><a href="https://example.com/performer2" target="_blank" rel="noopener"><img class="thumb" src="img/performer2.jpg" alt="出演者2"></a><div class="band"></div></div>
+        <div class="card"><a href="https://example.com/performer3" target="_blank" rel="noopener"><img class="thumb" src="img/performer3.jpg" alt="出演者3"></a><div class="band"></div></div>
+        <div class="card"><a href="https://example.com/performer4" target="_blank" rel="noopener"><img class="thumb" src="img/performer4.jpg" alt="出演者4"></a><div class="band"></div></div>
+        <div class="card"><a href="https://example.com/performer5" target="_blank" rel="noopener"><img class="thumb" src="img/performer5.jpg" alt="出演者5"></a><div class="band"></div></div>
       </div>
     </div>
   </section>
 
-  <!-- フォトギャラリー（横スクロール） -->
-  <section>
+  <!-- チケット（入場料／購入先） -->
+<section id="tickets">
+  <div class="wrap">
+    <div class="glass">
+      <h2>チケット</h2>
+      <div class="grid grid-3">
+        <!-- 入場料（条件もここに集約） -->
+          <h3 style="margin:0 0 10px">入場料</h3>
+            <li>一般：<strong>¥2,500</strong></li>
+            <li>小学生以下：<strong>無料</strong></li>
+        </div>
+
+        <!-- チケットぴあ -->
+        <div class="card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+          <h3 style="margin:0 0 8px">チケットぴあ</h3>
+          <div class="band"></div>
+          <a style="margin-top:12px;display:inline-block;padding:12px 18px;border-radius:999px;background:var(--accent);color:#fff;font-weight:800;text-decoration:none"
+             href="#" target="_blank" rel="noopener">購入ページへ</a>
+        </div>
+
+        <!-- 公式LINE -->
+        <div class="card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+          <h3 style="margin:0 0 8px">公式LINE</h3>
+          <div class="band"></div>
+          <a style="margin-top:12px;display:inline-block;padding:12px 18px;border-radius:999px;border:2px solid var(--gold);color:#fff;font-weight:800;text-decoration:none"
+             href="#" target="_blank" rel="noopener">友だち追加 / 購入</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+ <section id="timetable">
     <div class="wrap">
-      <h2>フォトギャラリー</h2>
-      <div class="snap">
-        <img src="img/hero.jpg" alt="ギャラリー1">
-        <img src="img/background2.jpg" alt="ギャラリー2">
-        <img src="img/performer1.jpg" alt="ギャラリー3">
-        <img src="img/performer2.jpg" alt="ギャラリー4">
-        <img src="img/performer3.jpg" alt="ギャラリー5">
-        <img src="img/performer4.jpg" alt="ギャラリー6">
-      </div>
-      <p class="lead" style="margin-top:10px">左右にスワイプ／スクロールできます。</p>
-    </div>
-  </section>
-
-  <!-- チケット -->
-  <section id="tickets" class="fixed-bg">
-    <div class="overlay">
-      <div class="wrap">
-        <div class="glass" style="padding:24px">
-          <h2>チケット</h2>
-          <div class="grid grid-2">
-            <div class="card">
-              <h3 style="margin:0 0 8px">入場料</h3>
-              <div class="band"></div>
-              <p style="margin:12px 0 0">¥2,500（小学生以下無料）</p>
-            </div>
-            <div class="card">
-              <h3 style="margin:0 0 8px">購入方法</h3>
-              <div class="band"></div>
-              <p style="margin:12px 0 0">チケットぴあ / 公式LINE など（準備中）</p>
-            </div>
-          </div>
-          <p style="text-align:center;margin:16px 0 0"><a class="btn" href="#">販売ページ（後日リンク）</a></p>
-        </div>
+      <h2>タイムテーブル（予定）</h2>
+      <div class="table">
+        <table>
+          <thead><tr><th>時間</th><th>ステージ</th><th>内容</th></tr></thead>
+          <tbody>
+            <tr><td>10:00</td><td>MAIN</td><td>オープニング・エイサー</td></tr>
+            <tr><td>11:30</td><td>MAIN</td><td>アーティストA ライブ</td></tr>
+            <tr><td>13:00</td><td>SUB</td><td>子どもワークショップ</td></tr>
+            <tr><td>15:00</td><td>MAIN</td><td>DIAMANTES</td></tr>
+            <tr><td>18:00</td><td>MAIN</td><td>フィナーレ</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
 
-  <!-- 協賛 -->
-  <section>
+  <section id="access">
     <div class="wrap">
-      <h2>協賛</h2>
-      <div class="sponsors">
-        <img src="img/suponsor1.jpg" alt="協賛1">
-        <img src="img/suponsor2.jpg" alt="協賛2">
-      </div>
-      <p class="lead">ご支援ありがとうございます。</p>
-    </div>
-  </section>
-
-  <!-- アクセス（後で地図を入れる場所） -->
-  <section class="fixed-bg">
-    <div class="overlay">
-      <div class="wrap">
-        <div class="glass" style="padding:24px">
-          <h2>アクセス</h2>
-          <p class="lead">高崎駅 西口「もてなし広場」</p>
-          <!-- ▼▼▼ 後で Google マップをここに埋め込み ▼▼▼
-          <div style="border-radius:14px;overflow:hidden;border:1px solid var(--line)">
-            <iframe src="ここにGoogleMapの埋め込みURL" width="100%" height="320" style="border:0" loading="lazy" allowfullscreen></iframe>
-          </div>
-          ▲▲▲ ここまで（あとで差し込む） ▲▲▲ -->
-          <div class="card" style="text-align:center">🗺️ 地図は準備中です。後でここに表示されます。</div>
+      <h2>アクセス</h2>
+      <p class="sub">所在地：群馬県高崎市八島町 〈高崎駅西口 もてなし広場〉 / 公共交通機関のご利用を推奨します。</p>
+      <div class="cols">
+        <div class="map">
+          <!-- Google マップを差し替え（埋め込み用URL） -->
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5191.173!2d139.006!3d36.322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sja!2sjp!4v1710000000000" width="100%" height="320" style="border:0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div>
+          <ul>
+            <li>JR高崎駅 西口より徒歩5分</li>
+            <li>会場専用の駐車場はありません（近隣Pをご利用ください）</li>
+          </ul>
+          <div class="cta"><a class="btn ghost" href="#">アクセス詳細</a><a class="btn ghost" href="#">交通のお願い</a></div>
         </div>
       </div>
     </div>
   </section>
+
+  <section id="faq" class="faq">
+    <div class="wrap">
+      <h2>FAQ</h2>
+      <details>
+        <summary>再入場はできますか？</summary>
+        <p>リストバンド着用で再入場可。紛失時は無効です。</p>
+      </details>
+      <details>
+        <summary>雨天の場合は？</summary>
+        <p>雨天決行・荒天中止。中止時はX（旧Twitter）と本サイトで告知、チケットは払い戻し対応。</p>
+      </details>
+      <details>
+        <summary>子どもの入場は？</summary>
+        <p>未就学児は無料（保護者同伴）。小学生は子ども料金があります。</p>
+      </details>
+    </div>
+  </section>
+
+
 
   <footer>© 2025 琉球の風 実行委員会</footer>
-
-  <script>
-    // スムーススクロールなど必要ならここに追記できます
-  </script>
 </body>
 </html>
