@@ -107,7 +107,212 @@
       .hero .wrap{padding:0 .5rem}
     }
 
-    footer{padding:40px 0;text-align:center;color:#ddd}
+　/* 出店店舗レイアウト */
+#vendors .grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+}
+
+#vendors .card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:16px;
+  border-radius:16px;
+  background:rgba(0,0,0,.55);
+  border:1px solid var(--line);
+  min-height:320px;              /* 高さを揃える */
+}
+
+.vendor-photos{
+  display:grid;
+  gap:8px;
+  width:100%;
+  max-width:400px;
+  margin-bottom:8px;
+}
+
+/* 1枚のときは中央配置、2枚のときは横並び */
+.vendor-photos img{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#000;
+}
+
+.name{
+  margin:8px 0;
+  font-size:1.05rem;
+  font-weight:700;
+  color:#fff;
+}
+
+.vendor-cta{
+  margin-top:auto;
+}
+.vendor-cta a{
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:999px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  font-size:0.9rem;
+}
+.vendor-cta a:hover{filter:brightness(1.05);}
+
+/* ===== チケット枠（#tickets 内の .glass だけ）を派手に ===== */
+#tickets .glass::after{
+  content:"";
+  position:absolute;
+  top:0; left:-150%;
+  width:150%; height:100%;
+  background: linear-gradient(120deg,
+              transparent 0%,
+              rgba(255,255,255,.35) 45%,
+              rgba(255,255,255,.55) 50%,
+              rgba(255,255,255,.35) 55%,
+              transparent 100%);
+  transform: skewX(-20deg);
+  animation: sweepGlass 4s infinite; /* ←ここを変更 */
+  pointer-events:none;
+}
+
+@keyframes sweepGlass {
+  0%   { left:-150%; }
+  50%  { left:100%; }
+  100% { left:100%; }
+}
+
+/* ===== SPECIAL GUEST 見出し（英字・派手ver） ===== */
+.en-title{
+  display:block;
+  text-align:center;   /* ← これで中央寄せ */
+  margin:0 auto;       /* ブロック全体を中央に */ 
+  font-size:clamp(28px, 6vw, 56px);
+  line-height:1.1;
+  letter-spacing:.12em;
+  font-weight:900;
+  text-transform:uppercase;
+  /* ゴールド系グラデ文字 */
+  background:linear-gradient(90deg,#ffde9a 0%, #ffd700 40%, #fff5c3 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 6px 24px rgba(0,0,0,.45));
+  position:relative;
+  display:inline-block;
+  padding:.15em .35em;
+}
+ /* SPECIAL GUEST の中央寄せ修正版 */
+h2.en-title {
+  width: 100%;             /* 親幅いっぱいに広げる */
+  text-align: center;      /* テキスト中央 */
+  display: block;          /* flex等を打ち消す */
+  position: relative;      /* ::after の基準に */
+  margin: 0 auto 1rem;     /* 中央に配置 */
+}
+
+h2.en-title::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #fff,
+    transparent
+  );
+  margin: .5rem auto 0;
+  border-radius: 2px;
+
+  /* 追加：背景を大きくして動かす */
+  background-size: 200% 100%;
+  animation: shine 2.5s linear infinite;
+}
+
+@keyframes shine {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* キラッと流れる光 */
+.en-title::before{
+  content:"";
+  position:absolute;
+  top:0; bottom:0;
+  width:40%;
+  left:-50%;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.85) 30%, transparent 60%);
+  transform:skewX(-20deg);
+  animation:sg-shine 3.6s ease-in-out infinite;
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+@keyframes sg-shine{
+  0%{ transform:translateX(0) skewX(-20deg); left:-50%; }
+  100%{ transform:translateX(230%) skewX(-20deg); left:-50%; }
+}
+
+/* ←この h2.en-title::after（白い細線 & animation: shine）は削除 */
+h2.en-title::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  margin: .5rem auto 0;
+  border-radius: 2px;
+  background-size: 200% 100%;
+  animation: shine 2.5s linear infinite;
+}
+
+/* SPECIAL GUEST の下のリード文 */
+.special-lead{
+  text-align:center;
+  font-size:1.4rem;          /* 大きめ */
+  font-weight:700;
+  margin-top:10px;
+  color:#ffe08a;
+  text-shadow:0 0 10px rgba(255,200,50,.7), 0 0 20px rgba(255,100,0,.6);
+  animation:pulse 2s infinite;
+}
+
+/* 点滅アニメーション */
+@keyframes pulse{
+  0%,100%{opacity:1; transform:scale(1);}
+  50%{opacity:0.7; transform:scale(1.05);}
+}
+
+/* アニメを控えめに（ユーザー設定尊重） */
+@media (prefers-reduced-motion: reduce){
+  .en-title::before,
+  .en-title::after{ animation:none; }
+}
+
+/* ゲスト画像と名前を少し大きめに（“ドーン”感） */
+.special-guests .thumb{
+  aspect-ratio:4/5;
+  object-fit:cover;
+  border-radius:18px;
+  box-shadow:0 16px 40px rgba(0,0,0,.45);
+}
+.special-guests .name{
+  margin-top:14px;
+  font-size:clamp(1.3rem, 2.4vw, 2rem);
+  font-weight:900;
+  letter-spacing:.04em;
+  color:#FFD700;
+  text-shadow:0 0 12px rgba(0,0,0,.7);
+}
+
+  footer{padding:40px 0;text-align:center;color:#ddd}
   </style>
 </head>
 <body>
@@ -115,13 +320,24 @@
   <!-- ▼ グローバル背景動画（最背面） -->
   <div class="site-bg">
     <video class="site-bg-video" autoplay muted loop playsinline poster="img/bg-fallback.jpg">
-      <source src="slow.mp4" type="video/mp4">
+      <source src="video/slow.mp4" type="video/mp4">
     </video>
     <div class="site-bg-overlay"></div>
   </div>
   <!-- ▲ グローバル背景動画 -->
 
   <div class="cta-fixed"><a href="#tickets">🎫 チケット購入はこちら</a></div>
+
+  <!-- ▼ 言語切替ボタン -->
+<div class="lang-fixed" role="navigation" aria-label="Language switcher" style="
+  position:fixed; top:12px; left:12px; z-index:100; display:flex; gap:6px; flex-wrap:wrap;">
+  <button data-lang="ja" class="lang-btn" style="padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.5);color:#fff;font-weight:700;cursor:pointer;">日本語</button>
+  <button data-lang="en" class="lang-btn" style="padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.5);color:#fff;font-weight:700;cursor:pointer;">English</button>
+  <button data-lang="es" class="lang-btn" style="padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:linear-gradient(90deg,#FF6B35,#F7931E,#FFD700);color:#fff;font-weight:800;cursor:pointer;">Español</button>
+  <button data-lang="pt" class="lang-btn" style="padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.5);color:#fff;font-weight:700;cursor:pointer;">Português</button>
+</div>
+<!-- ▲ 言語切替ボタン -->
+
 
   <!-- Hero -->
   <header class="hero">
@@ -132,85 +348,78 @@
   <div class="blackbar" aria-hidden="true"></div>
 
   <!-- 最新情報 -->
-  <section id="news">
-    <div class="overlay">
-      <div class="wrap">
-        <div class="glass">
-          <h2>最新情報</h2>
-          <div class="grid grid-3">
-            <div class="card">
-              <h3 style="margin:0 0 8px">📣 お知らせ</h3>
-              <div class="band"></div>
-              <p style="margin:12px 0 0">続報はSNS/本サイトで発表します。</p>
-            </div>
+<section id="news">
+  <div class="overlay">
+    <div class="wrap">
+      <div class="glass">
+        <h2>最新情報</h2>
+        <div class="grid grid-3">
+          <!-- 既存カード -->
+          <div class="card">
+            <h3 style="margin:0 0 8px">📣 お知らせ</h3>
+            <div class="band"></div>
+            <p style="margin:12px 0 0">続報はSNS/本サイトで発表します。</p>
+          </div>
 
-            <div class="card">
-              <h3 style="margin:0 0 8px">🎤 ラインナップ</h3>
+          <div class="card">
+            <h3 style="margin:0 0 8px">🎤 ラインナップ</h3>
+            <div class="band"></div>
+            <p style="margin:12px 0 0">
+              <a href="#special-guests" style="color:#ffe08a; font-weight:bold; text-decoration:underline;">特別ゲスト</a> /
+              <a href="#lineup" style="color:#ffe08a; font-weight:bold; text-decoration:underline;">出演者</a>
+            </p>
+          </div>
+
+          <!-- ★ 新規追加：出店店舗 第一弾 -->
+          <div class="card">
+            <a href="#vendors" style="display:block; color:inherit; text-decoration:none;">
+              <h3 style="margin:0 0 8px">🛍 出店店舗 第一弾</h3>
               <div class="band"></div>
               <p style="margin:12px 0 0">
-                <a href="#special-guests" style="color:#ffe08a; font-weight:bold; text-decoration:underline;">特別ゲスト</a> /
-                <a href="#lineup" style="color:#ffe08a; font-weight:bold; text-decoration:underline;">出演者</a>
+                第一弾の出店情報を公開しました<br>
+                詳しくは一覧をご覧ください
               </p>
-            </div>
-
-            <div class="card">
-              <a href="#food" style="display:block; color:inherit; text-decoration:none;">
-                <h3 style="margin:0 0 8px">🍽 フード</h3>
-                <div class="band"></div>
-                <p style="margin:12px 0 0">沖縄グルメの出店情報を準備中。</p>
-              </a>
-            </div>
+            </a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- 動画（Vimeoを9:16のカード表示で） -->
-  <section id="movie">
-    <div class="wrap">
-      <h2></h2>
-      <div style="position:relative;padding-bottom:177.77%;height:0;overflow:hidden;border-radius:12px;max-width:400px;margin:auto">
-        <iframe 
-          src="https://player.vimeo.com/video/1114038927?h=59164758ed&badge=0&autopause=0&player_id=0&app_id=58479" 
-          frameborder="0" 
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
-          allowfullscreen
-          style="position:absolute;top:0;left:0;width:100%;height:100%">
-        </iframe>
+<!-- 特別ゲスト -->
+<section id="special-guests">
+  <div class="wrap">
+    <div class="special-hero">
+      <h2 class="en-title">SPECIAL GUEST</h2>
+      <p class="special-lead">スペシャルな2組が会場を盛り上げます！</p>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <a href="https://www.instagram.com/diamantes_okinawa?igsh=MXE2Z2gwb3R2aHAycw==" target="_blank" rel="noopener">
+          <img class="thumb" src="img/guest1.jpg" alt="DIAMANTES">
+        </a>
+        <div class="band"></div>
+        <p class="name">DIAMANTES</p>
+      </div>
+
+      <div class="card">
+        <a href="https://www.instagram.com/shoya_higa_?igsh=MTl5bDFrNnhsYzRsMg==" target="_blank" rel="noopener">
+          <img class="thumb" src="img/guest2.jpg" alt="比嘉翔也 WITH 琉球芸能">
+        </a>
+        <div class="band"></div>
+        <p class="name">比嘉翔也 WITH 琉球芸能</p>
       </div>
     </div>
-  </section>
-
-  <!-- 特別ゲスト（写真は全体表示） -->
-  <section id="special-guests">
-    <div class="wrap">
-      <h2>特別ゲスト</h2>
-      <p class="lead">スペシャルな2組が会場を盛り上げます！</p>
-      <div class="grid grid-2">
-        <div class="card">
-          <a href="https://www.instagram.com/diamantes_okinawa?igsh=MXE2Z2gwb3R2aHAycw==" target="_blank" rel="noopener">
-            <img class="thumb" src="img/guest1.jpg" alt="特別ゲスト1">
-          </a>
-          <div class="band"></div>
-          <p class="name">DIAMANTES</p>
-        </div>
-        <div class="card">
-          <a href="https://www.instagram.com/shoya_higa_?igsh=MTl5bDFrNnhsYzRsMg==" target="_blank" rel="noopener">
-            <img class="thumb" src="img/guest2.jpg" alt="特別ゲスト2">
-          </a>
-          <div class="band"></div>
-          <p class="name">比嘉翔也 WITH 琉球芸能</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
+</section>
 
   <!-- 出演者（上段4 / 下段3） -->
   <section id="lineup">
     <div class="wrap">
       <h2>出演団体</h2>
-      <p class="lead">ラインナップは順次追加予定！</p>
+ 
 
       <!-- 上段：4枚 -->
       <div class="grid-4">
@@ -270,13 +479,65 @@
     </div>
   </section>
 
-  <!-- フード -->
-  <section id="food">
-    <div class="wrap">
-      <h2>フード</h2>
-      <p class="lead">沖縄グルメの出店情報を調整中です。順次公開いたします！</p>
-    </div>
-  </section>
+<!-- 出店店舗（一部） -->
+<section id="vendors">
+  <div class="wrap">
+    <div class="glass">
+      <h2>出店店舗（一部）</h2>
+      <p class="lead">今後も追加発表します</p>
+
+      <div class="grid">
+        <!-- なべそば -->
+        <div class="card">
+          <div class="vendor-photos">
+            <img src="img/出店/なべそば.jpg" alt="なべそば1">
+            <img src="img/出店/なべそば1.jpg" alt="なべそば2">
+          </div>
+          <p class="name">なべそば</p>
+          <div class="vendor-cta">
+            <a href="https://www.instagram.com/nabesoba36" target="_blank" rel="noopener">📷 Instagram</a>
+          </div>
+        </div>
+
+        <!-- KUROBOSHI群馬 -->
+        <div class="card">
+          <div class="vendor-photos">
+            <img src="img/出店/KUROBOSHI群馬.jpg" alt="KUROBOSHI群馬">
+          </div>
+          <p class="name">KUROBOSHI群馬</p>
+          <div class="vendor-cta">
+            <a href="https://www.instagram.com/kuroboshi_gunma" target="_blank" rel="noopener">📷 Instagram</a>
+          </div>
+        </div>
+
+        <!-- PERO TABLE -->
+        <div class="card">
+          <div class="vendor-photos">
+            <img src="img/出店/PEROテーブル.jpg" alt="PERO TABLE 1">
+            <img src="img/出店/PEROテーブル1.jpg" alt="PERO TABLE 2">
+          </div>
+          <p class="name">pero table</p>
+          <div class="vendor-cta">
+            <a href="https://www.instagram.com/perotable" target="_blank" rel="noopener">📷 Instagram</a>
+          </div>
+        </div>
+
+        <!-- チャイドットコム -->
+        <div class="card">
+          <div class="vendor-photos">
+            <img src="img/出店/チャイドットコム.jpg" alt="チャイドットコム1">
+            <img src="img/出店/チャイドットコム1.jpg" alt="チャイドットコム2">
+          </div>
+          <p class="name">Chai.com</p>
+          <div class="vendor-cta">
+            <a href="https://www.instagram.com/chai.com2010" target="_blank" rel="noopener">📷 Instagram</a>
+          </div>
+        </div>
+      </div><!-- /.grid -->
+    </div><!-- /.glass -->
+  </div><!-- /.wrap -->
+</section>
+
 
   <!-- チケット（入場料／購入先） -->
   <section id="tickets">
@@ -329,15 +590,12 @@
       <div class="glass">
         <h2>アクセス</h2>
         <p class="lead">
-          所在地：群馬県高崎市八島町 〈高崎駅西口 もてなし広場〉<br>
-          公共交通機関のご利用を推奨します。
+          所在地：群馬県高崎市八島町 〈高崎駅西口 もてなし広場〉<br>公共交通機関のご利用を推奨します。
         </p>
         <div class="grid grid-2">
           <!-- Googleマップ -->
           <div class="card" style="padding:0">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3220.180938979466!2d138.99939131525973!3d36.32280288005195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601e8e63f60b9b43%3A0x8a6b9f8a9d92f643!2z44CSMzcwLTA4MTUg576k6aas55yM5a6u5bmz5biC5YWr5qW95Yy65YWr44Gu44GV44KT44GL!5e0!3m2!1sja!2sjp!4v1693500000000"
-              width="100%" height="320" style="border:0;border-radius:12px"
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2091.0527618377296!2d139.0021318500275!3d36.32411678772782!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601e8d7faae6b879%3A0xaecc5e5a6c8dbf73!2z44KC44Gm44Gq44GX5bqD5aC0!5e0!3m2!1sja!2sjp!4v1757943457471!5m2!1sja!2sjp" width="100%" height="320" style="border:0;border-radius:12px"
               allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
             </iframe>
           </div>
@@ -353,7 +611,7 @@
             <ul style="margin:0;padding-left:1.2em;line-height:1.6;text-align:left">
               <li>関越自動車道「高崎I.C.」より約20分</li>
               <li>北関東自動車道「前橋I.C.」より約25分</li>
-              <li>会場専用の駐車場はありません（近隣有料駐車場をご利用ください）</li>
+              <li>会場専用の駐車場はありません<br>（近隣有料駐車場をご利用ください）</li>
             </ul>
           </div>
 
@@ -401,13 +659,281 @@
 
   <footer>© 2025 琉球の風 実行委員会</footer>
 
-  <!-- （任意）動画速度をさらに落としたい時だけ有効化
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const v = document.querySelector('.site-bg-video');
-      if (v) v.playbackRate = 0.75; // 0.75倍速
+<script>
+/**
+ * 改良版i18n
+ * - 初期表示は必ず日本語（ja）
+ * - 翻訳は必ず「原文 → 辞書」から
+ * - 何度でも言語切替OK
+ */
+(function(){
+  const dict = {
+    ja: {
+      "🎫 チケット購入はこちら":"🎫 チケット購入はこちら",
+      "最新情報":"最新情報",
+      "📣 お知らせ":"📣 お知らせ",
+      "続報はSNS/本サイトで発表します。":"続報はSNS/本サイトで発表します。",
+      "🎤 ラインナップ":"🎤 ラインナップ",
+      "特別ゲスト":"特別ゲスト",
+      "出演者":"出演者",
+      "🛍 出店店舗 第一弾":"🛍 出店店舗 第一弾",
+      "第一弾の出店情報を公開しました":"第一弾の出店情報を公開しました",
+      "詳しくは一覧をご覧ください":"詳しくは一覧をご覧ください",
+      "スペシャルな2組が会場を盛り上げます！":"スペシャルな2組が会場を盛り上げます！",
+      "出演団体":"出演団体",
+      "出店店舗（一部）":"出店店舗（一部）",
+      "今後も追加発表します":"今後も追加発表します",
+      "チケット":"チケット",
+      "入場料":"入場料",
+      "一般：":"一般：",
+      "小学生以下：無料":"小学生以下：無料",
+      "チケットぴあ":"チケットぴあ",
+      "購入ページへ":"購入ページへ",
+      "公式LINE":"公式LINE",
+      "友だち追加 / 購入":"友だち追加 / 購入",
+      "タイムテーブル":"タイムテーブル",
+      "現在調整中です。近日公開いたします。":"現在調整中です。近日公開いたします。",
+      "アクセス":"アクセス",
+      "所在地：群馬県高崎市八島町 〈高崎駅西口 もてなし広場〉":"所在地：群馬県高崎市八島町 〈高崎駅西口 もてなし広場〉",
+      "公共交通機関のご利用を推奨します。":"公共交通機関のご利用を推奨します。",
+      "🚆 電車でお越しの方":"🚆 電車でお越しの方",
+      "JR高崎駅 西口より徒歩5分":"JR高崎駅 西口より徒歩5分",
+      "上越・北陸新幹線、JR高崎線、吾妻線、両毛線など各線が利用可能":"上越・北陸新幹線、JR高崎線、吾妻線、両毛線など各線が利用可能",
+      "🚗 車でお越しの方":"🚗 車でお越しの方",
+      "関越自動車道「高崎I.C.」より約20分":"関越自動車道「高崎I.C.」より約20分",
+      "北関東自動車道「前橋I.C.」より約25分":"北関東自動車道「前橋I.C.」より約25分",
+      "会場専用の駐車場はありません（近隣有料駐車場をご利用ください）":"会場専用の駐車場はありません（近隣有料駐車場をご利用ください）",
+      "協賛・後援":"協賛・後援",
+      "本イベントは以下の皆さまにご協賛・ご後援いただいています。":"本イベントは以下の皆さまにご協賛・ご後援いただいています。",
+      "協賛":"協賛",
+      "後援":"後援",
+      "高崎市":"高崎市",
+      "FAQ":"FAQ",
+      "再入場はできますか？":"再入場はできますか？",
+      "リストバンド着用で再入場可。紛失時は無効です。":"リストバンド着用で再入場可。紛失時は無効です。",
+      "雨天の場合は？":"雨天の場合は？",
+      "雨天決行・荒天中止。中止時はSNS等と本サイトで告知致します。":"雨天決行・荒天中止。中止時はSNS等と本サイトで告知致します。",
+      "子どもの入場は？":"子どもの入場は？",
+      "小学生以下は無料":"小学生以下は無料",
+      "© 2025 琉球の風 実行委員会":"© 2025 琉球の風 実行委員会"
+      },
+    en: {
+      "🎫 チケット購入はこちら":"🎫 Get Tickets",
+      "最新情報":"Latest News",
+      "📣 お知らせ":"📣 Announcements",
+      "続報はSNS/本サイトで発表します。":"Updates will be posted on our SNS and this site.",
+      "🎤 ラインナップ":"🎤 Lineup",
+      "特別ゲスト":"Special Guests",
+      "出演者":"Performers",
+      "🛍 出店店舗 第一弾":"🛍 Vendors – First Round",
+      "第一弾の出店情報を公開しました":"The first round of vendor info is now live.",
+      "詳しくは一覧をご覧ください":"See the list for details.",
+      "スペシャルな2組が会場を盛り上げます！":"Two special acts will light up the stage!",
+      "出演団体":"Performing Groups",
+      "出店店舗（一部）":"Vendors (Partial List)",
+      "今後も追加発表します":"More to be announced.",
+      "チケット":"Tickets",
+      "入場料":"Admission",
+      "一般：":"General:",
+      "小学生以下：無料":"Elementary school and under:FREE",
+      "チケットぴあ":"Ticket Pia",
+      "購入ページへ":"Go to Purchase",
+      "公式LINE":"Official LINE",
+      "友だち追加 / 購入":"Add Friend / Buy",
+      "タイムテーブル":"Timetable",
+      "現在調整中です。近日公開いたします。":"Currently being finalized. Coming soon.",
+      "アクセス":"Access",
+      "所在地：群馬県高崎市八島町 〈高崎駅西口 もてなし広場〉":"Address: Yashima-cho, Takasaki, Gunma (Takasaki Station West Exit, Motenashi Plaza)",
+      "公共交通機関のご利用を推奨します。":"We recommend using public transportation.",
+      "🚆 電車でお越しの方":"🚆 By Train",
+      "JR高崎駅 西口より徒歩5分":"5 min walk from JR Takasaki Station (West Exit).",
+      "上越・北陸新幹線、JR高崎線、吾妻線、両毛線など各線が利用可能":"Joetsu/Hokuriku Shinkansen, Takasaki Line, Agatsuma Line, Ryomo Line, etc. available.",
+      "🚗 車でお越しの方":"🚗 By Car",
+      "関越自動車道「高崎I.C.」より約20分":"20 min from Kan-Etsu Expwy “Takasaki IC”.",
+      "北関東自動車道「前橋I.C.」より約25分":"25 min from Kita-Kanto Expwy “Maebashi IC”.",
+      "会場専用の駐車場はありません（近隣有料駐車場をご利用ください）":"No dedicated parking. Please use nearby paid lots.",
+      "協賛・後援":"Sponsors & Support",
+      "本イベントは以下の皆さまにご協賛・ご後援いただいています。":"This event is proudly supported by:",
+      "協賛":"Sponsors",
+      "後援":"Support",
+      "高崎市":"Takasaki City",
+      "FAQ":"FAQ",
+      "再入場はできますか？":"Can I re-enter?",
+      "リストバンド着用で再入場可。紛失時は無効です。":"Re-entry allowed with wristband. Lost bands are invalid.",
+      "雨天の場合は？":"What if it rains?",
+      "雨天決行・荒天中止。中止時はSNS等と本サイトで告知致します。":"Held in rain; canceled for severe weather. Updates via SNS/this site.",
+      "子どもの入場は？":"Children’s admission?",
+      "小学生以下は無料":"Free for elementary school children and under.",
+      "© 2025 琉球の風 実行委員会":"© 2025 Ryukyu no Kaze Organizing Committee"
+    },
+    es: {
+      "🎫 チケット購入はこちら":"🎫 Comprar entradas",
+      "最新情報":"Últimas noticias",
+      "📣 お知らせ":"📣 Avisos",
+      "続報はSNS/本サイトで発表します。":"Publicaremos más información en nuestras redes y en este sitio.",
+      "🎤 ラインナップ":"🎤 Cartel",
+      "特別ゲスト":"Artistas invitados",
+      "出演者":"Artistas",
+      "🛍 出店店舗 第一弾":"🛍 Puestos – 1ª tanda",
+      "第一弾の出店情報を公開しました":"Ya está publicada la primera tanda de puestos.",
+      "詳しくは一覧をご覧ください":"Consulta la lista para más detalles.",
+      "スペシャルな2組が会場を盛り上げます！":"¡Dos grupos especiales encenderán el escenario!",
+      "出演団体":"Grupos participantes",
+      "出店店舗（一部）":"Puestos (lista parcial)",
+      "今後も追加発表します":"Anunciaremos más próximamente.",
+      "チケット":"Entradas",
+      "入場料":"Precio",
+      "一般：":"General:",
+      "小学生以下：無料":"Niños (primaria o menos):GRATIS",
+      "チケットぴあ":"Ticket Pia",
+      "購入ページへ":"Ir a la compra",
+      "公式LINE":"LINE oficial",
+      "友だち追加 / 購入":"Añadir / Comprar",
+      "タイムテーブル":"Horario",
+      "現在調整中です。近日公開いたします。":"En preparación. Lo publicaremos pronto.",
+      "アクセス":"Acceso",
+      "所在地：群馬県高崎市八島町 〈高崎駅西口 もてなし広場〉":"Ubicación: Yashima-cho, Takasaki, Gunma (Plaza Motenashi, salida oeste de la Est. Takasaki)",
+      "公共交通機関のご利用を推奨します。":"Se recomienda utilizar el transporte público.",
+      "🚆 電車でお越しの方":"🚆 En tren",
+      "JR高崎駅 西口より徒歩5分":"A 5 min a pie desde la salida oeste de JR Takasaki.",
+      "上越・北陸新幹線、JR高崎線、吾妻線、両毛線など各線が利用可能":"Disponibles Joetsu/Hokuriku Shinkansen, línea Takasaki, Agatsuma, Ryomo, etc.",
+      "🚗 車でお越しの方":"🚗 En carro",
+      "関越自動車道「高崎I.C.」より約20分":"20 min desde la IC Takasaki (autop. Kan-Etsu).",
+      "北関東自動車道「前橋I.C.」より約25分":"25 min desde la IC Maebashi (autop. Kita-Kanto).",
+      "会場専用の駐車場はありません/n（近隣有料駐車場をご利用ください）":"No hay aparcamiento propio. Use parkings de pago cercanos.",
+     
+
+      "協賛・後援":"Patrocinios y apoyos",
+      "本イベントは以下の皆さまにご協賛・ご後援いただいています。":"Este evento cuenta con el apoyo de:",
+      "協賛":"Patrocinadores",
+      "後援":"Apoyos",
+      "高崎市":"Ciudad de Takasaki",
+      "FAQ":"Preguntas frecuentes",
+      "再入場はできますか？":"¿Se permite reingresar?",
+      "リストバンド着用で再入場可。紛失時は無効です。":"Sí, con pulsera. Si la pierde, no será válida.",
+      "雨天の場合は？":"¿Qué pasa si llueve?",
+      "雨天決行・荒天中止。中止時はSNS等と本サイトで告知致します。":"Se realiza con lluvia; se cancela con clima severo. Avisaremos por redes/este sitio.",
+      "子どもの入場は？":"¿Entrada para niños?",
+      "小学生以下は無料":"Gratis para niños de primaria o menores.",
+      "© 2025 琉球の風 実行委員会":"© 2025 Comité Organizador Ryukyu no Kaze"
+    },
+    pt: {
+      "🎫 チケット購入はこちら":"🎫 Comprar ingressos",
+      "最新情報":"Últimas notícias",
+      "📣 お知らせ":"📣 Avisos",
+      "続報はSNS/本サイトで発表します。":"Mais novidades nas redes sociais e neste site.",
+      "🎤 ラインナップ":"🎤 Line-up",
+      "特別ゲスト":"Convidados especiais",
+      "出演者":"Artistas",
+      "🛍 出店店舗 第一弾":"🛍 Barracas – 1ª rodada",
+      "第一弾の出店情報を公開しました":"Primeira lista de barracas publicada.",
+      "詳しくは一覧をご覧ください":"Veja a lista para detalhes.",
+      "スペシャルな2組が会場を盛り上げます！":"Dois grupos especiais vão agitar o evento!",
+      "出演団体":"Grupos participantes",
+      "出店店舗（一部）":"Barracas (parcial)",
+      "今後も追加発表します":"Mais em breve.",
+      "チケット":"Ingressos",
+      "入場料":"Preço",
+      "一般：":"Geral:",
+      "小学生以下：無料":"Crianças (primário ou menos):GRATIS",
+      "チケットぴあ":"Ticket Pia",
+      "購入ページへ":"Ir para compra",
+      "公式LINE":"LINE oficial",
+      "友だち追加 / 購入":"Adicionar / Comprar",
+      "タイムテーブル":"Programação",
+      "現在調整中です。近日公開いたします。":"Em ajuste. Disponível em breve.",
+      "アクセス":"Acesso",
+      "所在地：群馬県高崎市八島町 〈高崎駅西口 もてなし広場〉":"Endereço: Yashima-cho, Takasaki, Gunma (Praça Motenashi, saída oeste da Est. Takasaki)",
+      "公共交通機関のご利用を推奨します。":"Recomendamos transporte público.",
+      "🚆 電車でお越しの方":"🚆 De trem",
+      "JR高崎駅 西口より徒歩5分":"5 min a pé da saída oeste da JR Takasaki.",
+      "上越・北陸新幹線、JR高崎線、吾妻線、両毛線など各線が利用可能":"Disponíveis Joetsu/Hokuriku Shinkansen, linha Takasaki, Agatsuma, Ryomo etc.",
+      "🚗 車でお越しの方":"🚗 De carro",
+      "関越自動車道「高崎I.C.」より約20分":"~20 min do IC Takasaki (Kan-Etsu).",
+      "北関東自動車道「前橋I.C.」より約25分":"~25 min do IC Maebashi (Kita-Kanto).",
+      "会場専用の駐車場はありません（近隣有料駐車場をご利用ください）":"Sem estacionamento próprio. Use estacionamentos pagos próximos.",
+      "協賛・後援":"Patrocínios e apoios",
+      "本イベントは以下の皆さまにご協賛・ご後援いただいています。":"Este evento conta com o apoio de:",
+      "協賛":"Patrocinadores",
+      "後援":"Apoio",
+      "高崎市":"Cidade de Takasaki",
+      "FAQ":"FAQ",
+      "再入場はできますか？":"Posso sair e voltar?",
+      "リストバンド着用で再入場可。紛失時は無効です。":"Sim, com pulseira. Em caso de perda, é inválida.",
+      "雨天の場合は？":"E se chover?",
+      "雨天決行・荒天中止。中止時はSNS等と本サイトで告知致します。":"Acontece com chuva; cancela em clima severo. Avisaremos nas redes/este site.",
+      "子どもの入場は？":"Entrada de crianças?",
+      "小学生以下は無料":"Grátis para crianças do primário ou menores.",
+      "© 2025 琉球の風 実行委員会":"© 2025 Comitê Organizador Ryukyu no Kaze"
+    }
+  };
+
+ const origMap = new WeakMap();
+  function collectOriginals(){
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(n){
+        if(!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const t = n.parentElement?.tagName.toLowerCase();
+        if(["script","style","noscript"].includes(t)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
     });
-  </script>
-  -->
+    while(walker.nextNode()){
+      if(!origMap.has(walker.currentNode)){
+        origMap.set(walker.currentNode, walker.currentNode.nodeValue);
+      }
+    }
+  }
+
+  // 翻訳適用
+  function applyLanguage(lang){
+    const map = dict[lang]; if(!map) return;
+
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode(n){ return origMap.has(n)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT; }
+    });
+    while(walker.nextNode()){
+      const node = walker.currentNode;
+      const original = origMap.get(node);
+      const trimmed = original.trim();
+      const lead = original.match(/^\s*/)[0];
+      const trail = original.match(/\s*$/)[0];
+
+      let replaced = map[trimmed];
+      if(!replaced){
+        for(const k of ["一般：","小学生以下："]){
+          if(trimmed.startsWith(k) && map[k]){
+            replaced = map[k] + trimmed.slice(k.length);
+            break;
+          }
+        }
+      }
+      node.nodeValue = lead + (replaced ?? trimmed) + trail;
+    }
+
+    // ボタン見た目更新
+    document.querySelectorAll('.lang-btn').forEach(btn=>{
+      const act = btn.dataset.lang===lang;
+      btn.style.background = act ? 'linear-gradient(90deg,#FF6B35,#F7931E,#FFD700)' : 'rgba(0,0,0,.5)';
+      btn.style.fontWeight = act ? '800' : '700';
+    });
+
+    try{ localStorage.setItem('lang', lang); }catch(e){}
+  }
+
+  // 初期化
+  document.addEventListener('DOMContentLoaded', ()=>{
+    collectOriginals();
+    const saved = localStorage.getItem('lang');
+    applyLanguage(saved || 'ja');
+  });
+
+  // 切替
+  document.addEventListener('click', e=>{
+    const btn = e.target.closest('.lang-btn');
+    if(btn) applyLanguage(btn.dataset.lang);
+  });
+})();
+</script>
 </body>
 </html>
