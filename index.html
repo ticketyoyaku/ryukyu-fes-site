@@ -167,26 +167,24 @@
 .vendor-cta a:hover{filter:brightness(1.05);}
 
 /* ===== チケット枠（#tickets 内の .glass だけ）を派手に ===== */
-#tickets .glass::after{
-  content:"";
-  position:absolute;
-  top:0; left:-150%;
-  width:150%; height:100%;
-  background: linear-gradient(120deg,
-              transparent 0%,
-              rgba(255,255,255,.35) 45%,
-              rgba(255,255,255,.55) 50%,
-              rgba(255,255,255,.35) 55%,
-              transparent 100%);
-  transform: skewX(-20deg);
-  animation: sweepGlass 4s infinite; /* ←ここを変更 */
-  pointer-events:none;
+/* チケット枠だけキラッとする */
+#tickets .glass {
+  position: relative;
+  border: 3px solid transparent;
+  border-radius: 18px;
+  background: rgba(0,0,0,.52);
+  box-shadow: 0 12px 30px rgba(0,0,0,.35);
+  padding: 24px;
+
+  /* 枠にグラデーションを適用 */
+  border-image: linear-gradient(90deg, #ff8a00, #ffd700, #ff8a00) 1;
+  animation: borderShine 4s linear infinite;
 }
 
-@keyframes sweepGlass {
-  0%   { left:-150%; }
-  50%  { left:100%; }
-  100% { left:100%; }
+@keyframes borderShine {
+  0%   { border-image-source: linear-gradient(90deg, #ff8a00, #ffd700, #ff8a00); }
+  50%  { border-image-source: linear-gradient(270deg, #ff8a00, #ffd700, #ff8a00); }
+  100% { border-image-source: linear-gradient(90deg, #ff8a00, #ffd700, #ff8a00); }
 }
 
 /* ===== SPECIAL GUEST 見出し（英字・派手ver） ===== */
