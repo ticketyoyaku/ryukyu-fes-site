@@ -309,6 +309,37 @@ h2.en-title::after {
   color:#FFD700;
   text-shadow:0 0 12px rgba(0,0,0,.7);
 }
+ /* ===== スマホのレイアウト調整（重なり回避） ===== */
+@media (max-width: 640px) {
+  /* チケット購入ボタンを右下に移動 */
+  .cta-fixed{
+    top: auto !important;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0));
+    z-index: 100;
+  }
+
+  /* 言語切替ボタンは上に横スクロール可能に */
+  .lang-fixed{
+    top: calc(12px + env(safe-area-inset-top, 0));
+    left: 12px;
+    right: 12px;
+    padding: 6px;
+    background: rgba(0,0,0,.35);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 999px;
+    gap: 8px;
+    overflow-x: auto;          /* ← 長い場合は横にスクロール */
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  /* ボタンを横並びにして折り返さない */
+  .lang-fixed .lang-btn{
+    flex: 0 0 auto;
+  }
+}
+
 
   footer{padding:40px 0;text-align:center;color:#ddd}
   </style>
@@ -485,6 +516,19 @@ h2.en-title::after {
       <p class="lead">今後も追加発表します</p>
 
       <div class="grid">
+        
+        <!-- 南国食堂ちむどんどん -->
+        <div class="card">
+          <div class="vendor-photos">
+            <img src="img/chimudon1.jpg" alt="南国食堂ちむどんどん1">
+            <img src="img/chimudon2.jpg" alt="南国食堂ちむどんどん2">
+          </div>
+          <p class="name">南国食堂ちむどんどん</p>
+          <div class="vendor-cta">
+            <a href="https://www.instagram.com/chimudondon2" target="_blank" rel="noopener">📷 Instagram</a>
+          </div>
+        </div>
+
         <!-- なべそば -->
         <div class="card">
           <div class="vendor-photos">
@@ -609,7 +653,7 @@ h2.en-title::after {
             <ul style="margin:0;padding-left:1.2em;line-height:1.6;text-align:left">
               <li>関越自動車道「高崎I.C.」より約20分</li>
               <li>北関東自動車道「前橋I.C.」より約25分</li>
-              <li>会場専用の駐車場はありません<br>（近隣有料駐車場をご利用ください）</li>
+              <li>会場専用の駐車場はありません<br>(近隣有料駐車場をご利用ください）</li>
             </ul>
           </div>
 
