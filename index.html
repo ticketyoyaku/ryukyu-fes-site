@@ -43,6 +43,15 @@
     .cta-fixed{position:fixed;top:12px;right:12px;z-index:100}
     .cta-fixed a{display:inline-block;background:linear-gradient(90deg,#FF6B35,#F7931E,#FFD700);color:#fff;font-weight:800;padding:10px 14px;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.35);text-decoration:none}
     .cta-fixed a:hover{filter:brightness(1.05)}
+/* 追加CSS（style内のどこでもOK） */
+.cta-fixed .stack{display:flex;flex-direction:column;gap:10px}
+.cta-fixed .ghost{
+  background:rgba(0,0,0,.5);
+  border:1px solid var(--gold);
+}
+@media (max-width:640px){
+  .cta-fixed{right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0));top:auto}
+}
 
     /* ヒーロー（画像は必ず全体表示） */
     .hero{min-height:100dvh;position:relative;display:grid;place-items:center;background:#0000}
@@ -107,64 +116,112 @@
       .hero .wrap{padding:0 .5rem}
     }
 
-　/* 出店店舗レイアウト */
-#vendors .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:22px;
+/* ===== 出店店舗：Grid整列＆高さ揃え（すき間なし）===== */
+#vendors .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 22px;
+  justify-content: center;
 }
 
-#vendors .card{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  padding:16px;
-  border-radius:16px;
-  background:rgba(0,0,0,.55);
-  border:1px solid var(--line);
-  min-height:320px;              /* 高さを揃える */
+#vendors .card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--line);
+  min-height: 480px; /* 高さを統一 */
+  box-sizing: border-box;
+  justify-content: space-between; /* 中身を上下に整列 */
 }
 
-.vendor-photos{
-  display:grid;
-  gap:8px;
-  width:100%;
-  max-width:400px;
-  margin-bottom:8px;
+/* 画像が1枚のときは大きく、2枚のときは縦並び */
+.vendor-photos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
 }
 
-/* 1枚のときは中央配置、2枚のときは横並び */
-.vendor-photos img{
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  border-radius:12px;
-  border:1px solid var(--line);
-  background:#000;
+.vendor-photos img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #000;
 }
 
-.name{
-  margin:8px 0;
-  font-size:1.05rem;
-  font-weight:700;
-  color:#fff;
+/* 画像が1枚のときは高さを大きめに */
+.vendor-photos img:only-child {
+  height: 300px;
+  object-fit: contain;
 }
 
-.vendor-cta{
-  margin-top:auto;
+/* 店名とボタン整列 */
+#vendors .name {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
 }
-.vendor-cta a{
-  display:inline-block;
-  padding:6px 14px;
-  border-radius:999px;
-  background:var(--accent);
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  font-size:0.9rem;
+
+.vendor-cta {
+  margin-top: auto;
 }
-.vendor-cta a:hover{filter:brightness(1.05);}
+
+.vendor-cta a {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.vendor-cta a:hover {
+  filter: brightness(1.05);
+}
+
+/* スマホで1列に */
+@media (max-width: 640px) {
+  #vendors .grid {
+    grid-template-columns: 1fr;
+  }
+  #vendors .card {
+    min-height: 400px;
+  }
+}
+
+/* ===== 場内地図セクション ===== */
+#map .map-image {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#map .map-image img {
+  width: 100%;
+  max-width: 900px;  /* PCでの最大幅 */
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  object-fit: contain;
+}
+
+/* スマホでは少し余白を狭く */
+@media (max-width: 640px) {
+  #map .map-image img {
+    max-width: 95%;
+    border-radius: 10px;
+  }
+}
 
 /* ===== チケット枠（#tickets 内の .glass だけ）を派手に ===== */
 /* チケット枠だけキラッとする */
@@ -282,6 +339,26 @@ h2.en-title::after {
   animation:pulse 2s infinite;
 }
 
+.video-wrap {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9比率 */
+  margin-top: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,.4);
+}
+
+.video-wrap video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+}
+
 /* 点滅アニメーション */
 @keyframes pulse{
   0%,100%{opacity:1; transform:scale(1);}
@@ -355,7 +432,16 @@ h2.en-title::after {
   </div>
   <!-- ▲ グローバル背景動画 -->
 
-  <div class="cta-fixed"><a href="#tickets">🎫 チケット購入はこちら</a></div>
+  /* 追加CSS（style内のどこでもOK） */
+.cta-fixed .stack{display:flex;flex-direction:column;gap:10px}
+.cta-fixed .ghost{
+  background:rgba(0,0,0,.5);
+  border:1px solid var(--gold);
+}
+@media (max-width:640px){
+  .cta-fixed{right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0));top:auto}
+}
+
 
   <!-- ▼ 言語切替ボタン -->
 <div class="lang-fixed" role="navigation" aria-label="Language switcher" style="
@@ -375,6 +461,15 @@ h2.en-title::after {
 
   <!-- 黒帯 -->
   <div class="blackbar" aria-hidden="true"></div>
+
+<!-- 既存の .cta-fixed をこれに置き換え -->
+<div class="cta-fixed">
+  <div class="stack">
+    <a href="#tickets">🎫 チケット購入はこちら</a>
+    <a href="#timetable" class="ghost">🕒 タイムテーブル</a>
+  </div>
+</div>
+
 
   <!-- 最新情報 -->
 <section id="news">
@@ -399,16 +494,12 @@ h2.en-title::after {
             </p>
           </div>
 
-          <!-- ★ 新規追加：出店店舗 第一弾 -->
+          <!-- ★ 出店店舗 -->
           <div class="card">
             <a href="#vendors" style="display:block; color:inherit; text-decoration:none;">
-              <h3 style="margin:0 0 8px">🛍 出店店舗 第一弾</h3>
+              <h3 style="margin:0 0 8px">🍴 出店店舗　🍴 </h3>
               <div class="band"></div>
-              <p style="margin:12px 0 0">
-                第一弾の出店情報を公開しました<br>
-                詳しくは一覧をご覧ください
-              </p>
-            </a>
+             </a>
           </div>
         </div>
       </div>
@@ -425,13 +516,14 @@ h2.en-title::after {
     </div>
 
     <div class="grid grid-2">
-      <div class="card">
-        <a href="https://www.instagram.com/diamantes_okinawa?igsh=MXE2Z2gwb3R2aHAycw==" target="_blank" rel="noopener">
-          <img class="thumb" src="img/guest1.jpg" alt="DIAMANTES">
-        </a>
-        <div class="band"></div>
-        <p class="name">DIAMANTES</p>
-      </div>
+     <div class="card">
+  <!-- Instagramリンクはそのまま -->
+  <a href="https://www.instagram.com/diamantes_okinawa?igsh=MXE2Z2gwb3R2aHAycw==" target="_blank" rel="noopener">
+    <img class="thumb" src="img/guest1.jpg" alt="DIAMANTES">
+  </a>
+  <div class="band"></div>
+  <p class="name">DIAMANTES</p>
+</div>
 
       <div class="card">
         <a href="https://www.instagram.com/shoya_higa_?igsh=MTl5bDFrNnhsYzRsMg==" target="_blank" rel="noopener">
@@ -508,13 +600,24 @@ h2.en-title::after {
     </div>
   </section>
 
+<!-- 場内地図 -->
+<section id="map">
+  <div class="wrap">
+    <div class="glass">
+      <h2>場内マップ</h2>
+      <p class="lead">当日の会場配置図はこちらです</p>
+      <div class="map-image">
+        <img src="img/map.jpg" alt="琉球の風プレイベント 場内マップ">
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- 出店店舗（一部） -->
 <section id="vendors">
   <div class="wrap">
     <div class="glass">
-      <h2>出店店舗（一部）</h2>
-      <p class="lead">今後も追加発表します</p>
-
+      <h2>出店店舗</h2>
       <div class="grid">
         
         <!-- 南国食堂ちむどんどん -->
@@ -541,18 +644,32 @@ h2.en-title::after {
           </div>
         </div>
 
-        <!-- KUROBOSHI群馬 -->
+    <!-- チャイドットコム -->
         <div class="card">
           <div class="vendor-photos">
-            <img src="img/KUROBOSHI群馬.jpg" alt="KUROBOSHI群馬">
+            <img src="img/チャイドットコム.jpg" alt="チャイドットコム1">
+            <img src="img/チャイドットコム1.jpg" alt="チャイドットコム2">
           </div>
-          <p class="name">KUROBOSHI群馬</p>
+          <p class="name">Chai.com</p>
           <div class="vendor-cta">
-            <a href="https://www.instagram.com/kuroboshi_gunma" target="_blank" rel="noopener">📷 Instagram</a>
+            <a href="https://www.instagram.com/chai.com2010" target="_blank" rel="noopener">📷 Instagram</a>
           </div>
         </div>
 
-        <!-- PERO TABLE -->
+   <!-- カイピリニャー -->
+        <div class="card">
+          <div class="vendor-photos">
+            <img src="img/カイピリニャー1.jpg" alt="カイピリニャー">
+　　　　　　<img src="img/カイピリニャー2.jpg" alt="カイピリニャー">
+
+          </div>
+          <p class="name">カイピリーニャの王様</p>
+          <div class="vendor-cta">
+            <a href="https://www.instagram.com/reidacaipirinhajp/" target="_blank" rel="noopener">📷 Instagram</a>
+          </div>
+        </div>
+
+     <!-- PERO TABLE -->
         <div class="card">
           <div class="vendor-photos">
             <img src="img/PEROテーブル.jpg" alt="PERO TABLE 1">
@@ -564,21 +681,35 @@ h2.en-title::after {
           </div>
         </div>
 
-        <!-- チャイドットコム -->
-        <div class="card">
-          <div class="vendor-photos">
-            <img src="img/チャイドットコム.jpg" alt="チャイドットコム1">
-            <img src="img/チャイドットコム1.jpg" alt="チャイドットコム2">
-          </div>
-          <p class="name">Chai.com</p>
-          <div class="vendor-cta">
-            <a href="https://www.instagram.com/chai.com2010" target="_blank" rel="noopener">📷 Instagram</a>
+   　　 <!-- キデリシア -->
+      　　  <div class="card">
+       　　   <div class="vendor-photos">
+        　　    <img src="img/キデリシア.jpg" alt="kidelicia">
+        　　　  </div>
+        　　　  <p class="name">KIDELICIA</p>
+        　　  <div class="vendor-cta">
+         　   <a href="https://www.instagram.com/kidelicia.japao/" target="_blank" rel="noopener">📷 Instagram</a>
           </div>
         </div>
+
+
+        <!-- KUROBOSHI群馬 -->
+        <div class="card">
+          <div class="vendor-photos">
+            <img src="img/KUROBOSHI群馬.jpg" alt="KUROBOSHI群馬">
+          </div>
+          <p class="name">KUROBOSHI群馬</p>
+          <div class="vendor-cta">
+            <a href="https://www.instagram.com/kuroboshi_gunma" target="_blank" rel="noopener">📷 Instagram</a>
+          </div>
+        </div>
+
       </div><!-- /.grid -->
     </div><!-- /.glass -->
   </div><!-- /.wrap -->
 </section>
+
+
 
 
   <!-- チケット（入場料／購入先） -->
@@ -618,13 +749,16 @@ h2.en-title::after {
     </div>
   </section>
 
+
+
   <!-- タイムテーブル -->
-  <section id="timetable">
-    <div class="wrap">
-      <h2>タイムテーブル</h2>
-      <p class="lead">現在調整中です。近日公開いたします。</p>
-    </div>
-  </section>
+  <section id="timetable" style="text-align:center;position:relative;">
+  <h2 style="color:#ffe08a;">タイムテーブル</h2>
+  <img src="img/timetable.png" alt="タイムテーブル" 
+       style="width:90%;max-width:900px;border-radius:16px;
+              border:2px solid rgba(255,215,0,.6);
+              box-shadow:0 0 30px rgba(255,215,0,.3)">
+</section>
 
   <!-- アクセス -->
   <section id="access">
